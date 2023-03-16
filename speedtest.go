@@ -29,6 +29,33 @@ func NewSpeedTest(zones []Zone, size int) *SpeedTest {
 	}
 }
 
+/** 
+	# use this function to generate real payload
+*/
+
+func generatePayload(size int) *strings.Reader {
+	// Generate a string of the specified size
+	str := ""
+	for i := 0; i < size; i++ {
+		str += "a"
+	}
+
+	// Create a reader from the string
+	return strings.NewReader(str)
+}
+
+// generatePayload is a helper function to generate a payload of the specified size
+func generatePayload(size int) *strings.Reader {
+	// Generate a string of the specified size
+	str := ""
+	for i := 0; i < size; i++ {
+		str += "a"
+	}
+
+	// Create a reader from the string
+	return strings.NewReader(str)
+}
+
 // Test runs the speed test for the given zone and size
 func (s *SpeedTest) Test(zone Zone) (time.Duration, error) {
 	start := time.Now()
