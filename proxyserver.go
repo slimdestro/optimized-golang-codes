@@ -90,3 +90,19 @@ func (p *ProxyServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 	p.Proxy.ServeHTTP(w, r)
 }
+
+func main() {
+	target, _ := url.Parse("http://example.com")
+	proxyConfig := &ProxyConfig{
+		Target: target,
+		Scheme: "http",
+		Timeout: 10 * time.Second,
+		Auth: true,
+		OAuth2: true,
+		MaxConcurrentRequests: 1000000,
+	}
+	proxy := NewProxyServer(proxyConfig)
+	r := mux.NewRouter()
+	r.HandleFunc("/", proxy.ServeHTTP)
+	log.Fatal(http.ListenAndServe(":8080", handlers.LoggingHandler(os.Stdout, r)))
+}
